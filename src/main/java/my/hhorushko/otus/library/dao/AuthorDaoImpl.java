@@ -1,7 +1,6 @@
 package my.hhorushko.otus.library.dao;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import my.hhorushko.otus.library.domain.Author;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -95,7 +94,6 @@ public class AuthorDaoImpl implements AuthorDao {
 
         int id = jdbc.queryForObject("select max(id) from author", parameters, Integer.class) + 1;
 
-        System.out.println(id);
         return id;
     }
 

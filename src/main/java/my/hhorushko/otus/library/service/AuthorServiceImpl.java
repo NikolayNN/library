@@ -2,7 +2,6 @@ package my.hhorushko.otus.library.service;
 
 import lombok.AllArgsConstructor;
 import my.hhorushko.otus.library.dao.AuthorDao;
-import my.hhorushko.otus.library.dao.AuthorDaoImpl;
 import my.hhorushko.otus.library.domain.Author;
 import org.springframework.stereotype.Service;
 
