@@ -7,6 +7,8 @@ import java.util.List;
 public interface AuthorService {
     Author findById(int id);
 
+    List<Author> findById(int[] ids);
+
     Author findByName(String name);
 
     void deleteById(int id);

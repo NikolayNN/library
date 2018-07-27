@@ -9,6 +9,9 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -18,83 +21,48 @@ import java.util.List;
 public class GenreDaoImpl implements GenreDao{
 
 
-    private final NamedParameterJdbcTemplate jdbc;
+    @PersistenceContext
+    private EntityManager em;
 
     @Override
     public Genre findByName(String name){
 
-        SqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue("name", name);
-        return jdbc.queryForObject("select * from genre WHERE name=:name", parameters, new GenreMapper());
+        TypedQuery<Genre> query = em.createQuery("SELECT g FROM Genre g WHERE g.name=:name", Genre.class);
+        query.setParameter("name", name);
+        return query.getSingleResult();
     }
 
     @Override
     public Genre findById(int id){
-
-        SqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue("id", id);
-        return jdbc.queryForObject("select * from genre WHERE id=:id", parameters, new GenreMapper());
+        return em.find(Genre.class, id);
     }
 
     @Override
     public void deleteById(int id){
 
-        SqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue("id", id);
-
-        jdbc.update("delete FROM genre WHERE id=:id;", parameters);
+       Genre genre = findById(id);
+       em.remove(genre);
     }
 
     @Override
     public Genre update(Genre genre){
 
-        SqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue("id", genre.getId())
-                .addValue("name", genre.getName());
-
-        jdbc.update("UPDATE genre SET name=:name WHERE id=:id;", parameters);
-
+        em.merge(genre);
         return genre;
     }
 
     @Override
     public List<Genre> findAll(){
 
-        return jdbc.query("select * from genre", new GenreMapper());
+        TypedQuery<Genre> query = em.createQuery("SELECT g FROM Genre g", Genre.class);
+
+        return query.getResultList();
     }
 
     @Override
     public Genre insert(Genre genre){
 
-        int id = generateId();
-
-        SqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue("id", id)
-                .addValue("name", genre.getName());
-
-        jdbc.update("insert into genre (id, name) values (:id, :name)", parameters);
-
-        genre.setId(id);
+        em.persist(genre);
         return genre;
     }
-
-    private int generateId(){
-        SqlParameterSource parameters = new MapSqlParameterSource();
-
-        int id = jdbc.queryForObject("select max(id) from genre", parameters, Integer.class) + 1;
-
-        return id;
-    }
-
-    class GenreMapper implements RowMapper<Genre> {
-
-        @Override
-        public Genre mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Genre genre = new Genre();
-            genre.setId(rs.getInt("id"));
-            genre.setName(rs.getString("name"));
-            return genre;
-        }
-    }
-
 }

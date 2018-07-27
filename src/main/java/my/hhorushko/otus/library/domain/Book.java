@@ -2,14 +2,25 @@ package my.hhorushko.otus.library.domain;
 
 import lombok.Data;
 
+import javax.persistence.*;
 import java.util.List;
 
 @Data
+@Entity
 public class Book {
 
+    @Id
+    @GeneratedValue
     private int id;
     private String name;
+    @OneToOne
     private Genre genre;
+    @ManyToMany
+    @JoinTable(
+            name="book_author",
+            joinColumns = {@JoinColumn(name = "book_id")},
+            inverseJoinColumns = {@JoinColumn(name = "author_id")}
+    )
     private List<Author> authors;
 
     public Book() {

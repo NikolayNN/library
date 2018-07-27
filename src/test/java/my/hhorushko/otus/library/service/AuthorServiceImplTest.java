@@ -1,6 +1,6 @@
 package my.hhorushko.otus.library.service;
 
-import my.hhorushko.otus.library.dao.AuthorDao;
+import my.hhorushko.otus.library.dao.AuthorRepository;
 import my.hhorushko.otus.library.domain.Author;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
 public class AuthorServiceImplTest {
 
     @Mock
-    private AuthorDao authorDao;
+    private AuthorRepository authorRepository;
 
     @Captor
     private ArgumentCaptor<Author> authorArgumentCaptor;
@@ -36,7 +36,7 @@ public class AuthorServiceImplTest {
 
     @Before
     public void setUp() throws Exception {
-        authorService = new AuthorServiceImpl(authorDao);
+        authorService = new AuthorServiceImpl(authorRepository);
     }
 
     @Test
@@ -45,15 +45,15 @@ public class AuthorServiceImplTest {
         int givenId = 1;
         Author expectAuthor = buildAuthor(givenId);
 
-        when(authorDao.findById(anyInt())).thenReturn(expectAuthor);
+        when(authorRepository.findById(anyInt())).thenReturn(expectAuthor);
 
         Author actualAuthor = authorService.findById(givenId);
 
         assertEquals(expectAuthor, actualAuthor);
-        verify(authorDao).findById(integerArgumentCaptor.capture());
+        verify(authorRepository).findById(integerArgumentCaptor.capture());
         assertEquals(givenId, integerArgumentCaptor.getValue(), 0);
 
-        verifyNoMoreInteractions(authorDao);
+        verifyNoMoreInteractions(authorRepository);
     }
 
     @Test
@@ -63,15 +63,15 @@ public class AuthorServiceImplTest {
         String givenName = "test_name";
         Author expectAuthor = buildAuthor(givenId, givenName);
 
-        when(authorDao.findByName(anyString())).thenReturn(expectAuthor);
+        when(authorRepository.findByName(anyString())).thenReturn(expectAuthor);
 
         Author actualAuthor = authorService.findByName(givenName);
 
         assertEquals(expectAuthor, actualAuthor);
-        verify(authorDao).findByName(stringArgumentCaptor.capture());
+        verify(authorRepository).findByName(stringArgumentCaptor.capture());
         assertEquals(givenName, stringArgumentCaptor.getValue());
 
-        verifyNoMoreInteractions(authorDao);
+        verifyNoMoreInteractions(authorRepository);
     }
 
     @Test
@@ -81,10 +81,10 @@ public class AuthorServiceImplTest {
 
         authorService.deleteById(givenId);
 
-        verify(authorDao).deleteById(integerArgumentCaptor.capture());
+        verify(authorRepository).deleteById(integerArgumentCaptor.capture());
         assertEquals(givenId, integerArgumentCaptor.getValue(), 0);
 
-        verifyNoMoreInteractions(authorDao);
+        verifyNoMoreInteractions(authorRepository);
     }
 
     @Test
@@ -94,14 +94,14 @@ public class AuthorServiceImplTest {
         String givenName = "test_name";
         Author expectAuthor = buildAuthor(givenId, givenName);
 
-        when(authorDao.update(any(Author.class))).thenReturn(expectAuthor);
+        when(authorRepository.update(any(Author.class))).thenReturn(expectAuthor);
 
         Author actualAuthor = authorService.updateById(givenId, new Author(givenName));
         assertEquals(expectAuthor, actualAuthor);
-        verify(authorDao).update(authorArgumentCaptor.capture());
+        verify(authorRepository).update(authorArgumentCaptor.capture());
         assertEquals(expectAuthor, authorArgumentCaptor.getValue());
 
-        verifyNoMoreInteractions(authorDao);
+        verifyNoMoreInteractions(authorRepository);
     }
 
     @Test
@@ -111,29 +111,29 @@ public class AuthorServiceImplTest {
         String givenName = "test_name";
         Author expectAuthor = buildAuthor(givenId, givenName);
 
-        when(authorDao.insert(any(Author.class))).thenReturn(expectAuthor);
+        when(authorRepository.insert(any(Author.class))).thenReturn(expectAuthor);
 
         Author actualAuthor = authorService.save(new Author(givenName));
 
         assertEquals(expectAuthor, actualAuthor);
-        verify(authorDao).insert(authorArgumentCaptor.capture());
+        verify(authorRepository).insert(authorArgumentCaptor.capture());
         assertEquals(new Author(givenName), authorArgumentCaptor.getValue());
 
-        verifyNoMoreInteractions(authorDao);
+        verifyNoMoreInteractions(authorRepository);
     }
 
     @Test
     public void getAll() {
 
         List<Author> expectAuthors = buildAuthorList(3);
-        when(authorDao.findAll()).thenReturn(expectAuthors);
+        when(authorRepository.findAll()).thenReturn(expectAuthors);
 
         List<Author> actualAuthors = authorService.getAll();
 
         assertEquals(expectAuthors, actualAuthors);
-        verify(authorDao, times(1)).findAll();
+        verify(authorRepository, times(1)).findAll();
 
-        verifyNoMoreInteractions(authorDao);
+        verifyNoMoreInteractions(authorRepository);
     }
 
     private Author buildAuthor(int id) {

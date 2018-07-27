@@ -11,7 +11,7 @@ public interface BookDao {
 
     Book findByName(String name);
 
-    Book insert(String bookName, int genreId, int[] authorIds);
+    Book insert(Book book);
 
     void delete(int id);
 }
