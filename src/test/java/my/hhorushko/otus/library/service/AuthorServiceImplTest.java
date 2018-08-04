@@ -13,6 +13,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -46,7 +47,7 @@ public class AuthorServiceImplTest {
         int givenId = 1;
         Author expectAuthor = buildAuthor(givenId);
 
-        when(authorRepository.findById(anyInt())).thenReturn(expectAuthor);
+        when(authorRepository.findById(anyInt())).thenReturn(Optional.of(expectAuthor));
 
         Author actualAuthor = authorService.getById(givenId);
 
@@ -64,7 +65,7 @@ public class AuthorServiceImplTest {
         String givenName = "test_name";
         Author expectAuthor = buildAuthor(givenId, givenName);
 
-        when(authorRepository.findByName(anyString())).thenReturn(expectAuthor);
+        when(authorRepository.findByName(anyString())).thenReturn(Optional.of(expectAuthor));
 
         Author actualAuthor = authorService.getByName(givenName);
 
@@ -80,7 +81,12 @@ public class AuthorServiceImplTest {
 
         int givenId = 1;
 
+        when(authorRepository.findById(anyInt())).thenReturn(Optional.of(new Author()));
+
         authorService.deleteById(givenId);
+
+        verify(authorRepository).findById(integerArgumentCaptor.capture());
+        assertEquals(givenId, integerArgumentCaptor.getValue(), 0);
 
         verify(authorRepository).deleteById(integerArgumentCaptor.capture());
         assertEquals(givenId, integerArgumentCaptor.getValue(), 0);
@@ -95,11 +101,16 @@ public class AuthorServiceImplTest {
         String givenName = "test_name";
         Author expectAuthor = buildAuthor(givenId, givenName);
 
-        when(authorRepository.update(any(Author.class))).thenReturn(expectAuthor);
+        when(authorRepository.save(any(Author.class))).thenReturn(expectAuthor);
+        when(authorRepository.findById(anyInt())).thenReturn(Optional.of(expectAuthor));
 
         Author actualAuthor = authorService.updateById(givenId, new Author(givenName));
         assertEquals(expectAuthor, actualAuthor);
-        verify(authorRepository).update(authorArgumentCaptor.capture());
+
+        verify(authorRepository).findById(integerArgumentCaptor.capture());
+        assertEquals(givenId, integerArgumentCaptor.getValue(), 0);
+
+        verify(authorRepository).save(authorArgumentCaptor.capture());
         assertEquals(expectAuthor, authorArgumentCaptor.getValue());
 
         verifyNoMoreInteractions(authorRepository);
@@ -112,12 +123,12 @@ public class AuthorServiceImplTest {
         String givenName = "test_name";
         Author expectAuthor = buildAuthor(givenId, givenName);
 
-        when(authorRepository.insert(any(Author.class))).thenReturn(expectAuthor);
+        when(authorRepository.save(any(Author.class))).thenReturn(expectAuthor);
 
         Author actualAuthor = authorService.save(new Author(givenName));
 
         assertEquals(expectAuthor, actualAuthor);
-        verify(authorRepository).insert(authorArgumentCaptor.capture());
+        verify(authorRepository).save(authorArgumentCaptor.capture());
         assertEquals(new Author(givenName), authorArgumentCaptor.getValue());
 
         verifyNoMoreInteractions(authorRepository);

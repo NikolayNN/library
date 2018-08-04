@@ -6,5 +6,4 @@ import java.util.List;
 
 public interface AuthorService extends BaseCrudService<Author> {
 
-    List<Author> findById(int[] ids);
 }
