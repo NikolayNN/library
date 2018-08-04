@@ -1,8 +1,10 @@
 package my.hhorushko.otus.library.domain;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Data
 @Entity
@@ -13,6 +15,14 @@ public class User {
     @GeneratedValue
     private int id;
 
+    @NotBlank
     @Column(unique = true)
     private String name;
+
+    public User(@NotBlank String name) {
+        this.name = name;
+    }
+
+    public User() {
+    }
 }

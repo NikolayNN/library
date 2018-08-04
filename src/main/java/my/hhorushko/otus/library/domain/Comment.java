@@ -4,6 +4,7 @@ import lombok.Data;
 import org.aspectj.lang.annotation.DeclareAnnotation;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
@@ -20,8 +21,11 @@ public class Comment {
     private int id;
     private String text;
 
+    @NotNull
     @ManyToOne
     private Book book;
+
+    @NotNull
     @OneToOne
     private User user;
 }

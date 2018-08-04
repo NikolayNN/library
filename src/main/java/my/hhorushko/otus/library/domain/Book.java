@@ -3,6 +3,8 @@ package my.hhorushko.otus.library.domain;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
@@ -13,10 +15,15 @@ public class Book {
     @GeneratedValue
     private int id;
 
+    @NotBlank
     @Column(unique = true)
     private String name;
+
+    @NotNull
     @OneToOne
     private Genre genre;
+
+    @NotNull
     @ManyToMany
     @JoinTable(
             name="book_author",

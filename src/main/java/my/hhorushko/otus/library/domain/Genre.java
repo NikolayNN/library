@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
 
 @Data
 @Entity
@@ -15,7 +16,8 @@ public class Genre {
     @GeneratedValue
     private int id;
 
-    @Column(unique = true)
+    @NotBlank
+    @Column(unique = true, nullable = false)
     private String name;
 
     public Genre() {
