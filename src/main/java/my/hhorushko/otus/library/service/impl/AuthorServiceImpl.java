@@ -1,8 +1,9 @@
-package my.hhorushko.otus.library.service;
+package my.hhorushko.otus.library.service.impl;
 
 import lombok.AllArgsConstructor;
 import my.hhorushko.otus.library.dao.AuthorRepository;
 import my.hhorushko.otus.library.domain.Author;
+import my.hhorushko.otus.library.service.AuthorService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorRepository;
 
     @Override
-    public Author findById(int id){
+    public Author getById(int id){
         return authorRepository.findById(id);
     }
 
@@ -24,7 +25,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public Author findByName(String name){
+    public Author getByName(String name){
         return authorRepository.findByName(name);
     }
 

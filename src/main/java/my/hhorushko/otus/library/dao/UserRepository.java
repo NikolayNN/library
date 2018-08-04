@@ -1,4 +1,6 @@
-package my.hhorushko.otus.library.dao.impl;
+package my.hhorushko.otus.library.dao;
 
-public interface UserRepository {
+import my.hhorushko.otus.library.domain.User;
+
+public interface UserRepository extends BaseCrudRepository<User> {
 }

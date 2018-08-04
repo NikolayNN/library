@@ -1,8 +1,9 @@
-package my.hhorushko.otus.library.service;
+package my.hhorushko.otus.library.service.impl;
 
 import lombok.AllArgsConstructor;
-import my.hhorushko.otus.library.dao.GenreDao;
+import my.hhorushko.otus.library.dao.GenreRepository;
 import my.hhorushko.otus.library.domain.Genre;
+import my.hhorushko.otus.library.service.GenreService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,36 +12,36 @@ import java.util.List;
 @AllArgsConstructor
 public class GenreServiceImpl implements GenreService {
 
-    private final GenreDao genreDao;
+    private final GenreRepository genreRepository;
 
     @Override
-    public Genre findById(int id){
-        return genreDao.findById(id);
+    public Genre getById(int id){
+        return genreRepository.findById(id);
     }
 
     @Override
-    public Genre findByName(String name){
-        return genreDao.findByName(name);
+    public Genre getByName(String name){
+        return genreRepository.findByName(name);
     }
 
     @Override
     public void deleteById(int id){
-        genreDao.deleteById(id);
+        genreRepository.deleteById(id);
     }
 
     @Override
     public Genre updateById(int id, Genre genre){
         genre.setId(id);
-        return genreDao.update(genre);
+        return genreRepository.update(genre);
     }
 
     @Override
     public Genre save(Genre genre) {
-        return genreDao.insert(genre);
+        return genreRepository.insert(genre);
     }
 
     @Override
     public List<Genre> getAll() {
-        return genreDao.findAll();
+        return genreRepository.findAll();
     }
 }

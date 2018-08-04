@@ -12,6 +12,8 @@ public class Book {
     @Id
     @GeneratedValue
     private int id;
+
+    @Column(unique = true)
     private String name;
     @OneToOne
     private Genre genre;
@@ -22,6 +24,9 @@ public class Book {
             inverseJoinColumns = {@JoinColumn(name = "author_id")}
     )
     private List<Author> authors;
+
+    @OneToMany(mappedBy = "book")
+    private List<Comment> comments;
 
     public Book() {
     }

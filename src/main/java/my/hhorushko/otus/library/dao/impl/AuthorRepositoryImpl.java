@@ -1,6 +1,7 @@
-package my.hhorushko.otus.library.dao;
+package my.hhorushko.otus.library.dao.impl;
 
 import lombok.AllArgsConstructor;
+import my.hhorushko.otus.library.dao.AuthorRepository;
 import my.hhorushko.otus.library.domain.Author;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

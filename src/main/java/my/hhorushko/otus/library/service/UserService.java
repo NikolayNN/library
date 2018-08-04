@@ -1,4 +1,6 @@
 package my.hhorushko.otus.library.service;
 
-public class UserService {
+import my.hhorushko.otus.library.domain.User;
+
+public interface UserService extends BaseCrudService<User> {
 }

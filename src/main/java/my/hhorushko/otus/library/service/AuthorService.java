@@ -4,18 +4,7 @@ import my.hhorushko.otus.library.domain.Author;
 
 import java.util.List;
 
-public interface AuthorService {
-    Author findById(int id);
+public interface AuthorService extends BaseCrudService<Author> {
 
     List<Author> findById(int[] ids);
-
-    Author findByName(String name);
-
-    void deleteById(int id);
-
-    Author updateById(int id, Author author);
-
-    Author save(Author author);
-
-    List<Author> getAll();
 }

@@ -1,30 +1,24 @@
-package my.hhorushko.otus.library.dao;
+package my.hhorushko.otus.library.dao.impl;
 
 import lombok.AllArgsConstructor;
+import my.hhorushko.otus.library.dao.BookRepository;
 import my.hhorushko.otus.library.domain.Book;
-import my.hhorushko.otus.library.domain.Genre;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 @Repository
 @AllArgsConstructor
-public class BookDaoImpl implements BookDao {
+public class BookRepositoryImpl implements BookRepository {
 
     @PersistenceContext
     private EntityManager em;
 
     @Override
-    public Book findBookById(int id){
+    public Book findById(int id){
         return em.find(Book.class, id);
     }
 
@@ -51,9 +45,16 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public void delete(int id) {
+    public void deleteById(int id) {
 
-        Book book = findBookById(id);
+        Book book = findById(id);
         em.remove(book);
+    }
+
+    @Override
+    public Book update(Book book) {
+
+        em.merge(book);
+        return book;
     }
 }

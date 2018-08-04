@@ -1,38 +1,18 @@
-package my.hhorushko.otus.library.service.impl;
-
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import my.hhorushko.otus.library.dao.BaseCrudRepository;
-import my.hhorushko.otus.library.dao.GenreRepository;
-import my.hhorushko.otus.library.domain.Genre;
-import org.springframework.stereotype.Service;
+package my.hhorushko.otus.library.service;
 
 import java.util.List;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Service
-public abstract class BaseCrudService<T> {
+public interface  BaseCrudService<T> {
 
-    private final BaseCrudRepository baseCrudRepository;
+    List<T> getAll();
 
-    public T findById(int id){
-        return (T) baseCrudRepository.findById(id);
-    }
+    T getById(int id);
 
-    public T findByName(String name){
-        return (T) baseCrudRepository.findByName(name);
-    }
+    T getByName(String name);
 
-    public void deleteById(int id){
-        baseCrudRepository.deleteById(id);
-    }
+    T save(T t);
 
-    public T save(T t) {
-        return (T) baseCrudRepository.insert(t);
-    }
+    T updateById(int id, T t);
 
-    public List<T> getAll() {
-        return baseCrudRepository.findAll();
-    }
+    void deleteById(int id);
 }

@@ -51,12 +51,12 @@
 //
 //        final int givenId = 1;
 //        final Author expectAuthor = buildAuthor(givenId);
-//        when(authorService.findById(anyInt())).thenReturn(expectAuthor);
+//        when(authorService.getById(anyInt())).thenReturn(expectAuthor);
 //
 //        String actualOutput = appCommands.authorFind(givenId, defaultString);
 //
 //        assertEquals(expectAuthor.toString(), actualOutput);
-//        verify(authorService).findById(integerArgumentCaptor.capture());
+//        verify(authorService).getById(integerArgumentCaptor.capture());
 //        assertEquals(givenId, integerArgumentCaptor.getValue(), 0);
 //        verifyNoMoreInteractions(authorService);
 //        verifyZeroInteractions(bookService);
@@ -69,12 +69,12 @@
 //        final int givenId = 1;
 //        final String givenName = "test_name";
 //        final Author expectAuthor = buildAuthor(givenId, givenName);
-//        when(authorService.findByName(anyString())).thenReturn(expectAuthor);
+//        when(authorService.getByName(anyString())).thenReturn(expectAuthor);
 //
 //        String actualOutput = appCommands.authorFind(defaultInt, givenName);
 //
 //        assertEquals(expectAuthor.toString(), actualOutput);
-//        verify(authorService).findByName(stringArgumentCaptor.capture());
+//        verify(authorService).getByName(stringArgumentCaptor.capture());
 //        assertEquals(givenName, stringArgumentCaptor.getValue());
 //        verifyNoMoreInteractions(authorService);
 //        verifyZeroInteractions(bookService);

@@ -5,12 +5,12 @@ import my.hhorushko.otus.library.service.AuthenticaticalService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthenticaticalServiceImpl implements AuthenticaticalService {
+public class AuthenticationServiceImpl implements AuthenticaticalService {
 
     private UserServiceImpl userService;
     private User currentUser;
 
-    public AuthenticalServiceImpl(UserServiceImpl userService) {
+    public AuthenticationServiceImpl(UserServiceImpl userService) {
         this.userService = userService;
     }
 
@@ -31,5 +31,10 @@ public class AuthenticaticalServiceImpl implements AuthenticaticalService {
         User user = new User();
         user.setName(username);
         userService.save(user);
+    }
+
+    @Override
+    public User getCurrentUser() {
+        return currentUser;
     }
 }

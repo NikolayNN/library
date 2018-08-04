@@ -3,9 +3,7 @@ package my.hhorushko.otus.library.shell;
 import lombok.AllArgsConstructor;
 import my.hhorushko.otus.library.domain.Author;
 import my.hhorushko.otus.library.domain.Genre;
-import my.hhorushko.otus.library.service.AuthorService;
-import my.hhorushko.otus.library.service.BookService;
-import my.hhorushko.otus.library.service.GenreService;
+import my.hhorushko.otus.library.service.*;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
@@ -17,16 +15,18 @@ public class AppCommands {
     private final AuthorService authorService;
     private final GenreService genreService;
     private final BookService bookService;
+    private final AuthenticaticalService authenticaticalService;
+    private final CommentService commentService;
 
     @ShellMethod("find author with id")
     public String authorFind(@ShellOption(value = {"-I", "--id"}, defaultValue = "-1") Integer id,
                              @ShellOption(value = {"-N", "--name"}, defaultValue = "") String name) {
 
         if (id != -1) {
-            return authorService.findById(id).toString();
+            return authorService.getById(id).toString();
         }
         if (!name.isEmpty()) {
-            return authorService.findByName(name).toString();
+            return authorService.getByName(name).toString();
         }
         return authorService.getAll().toString();
     }
@@ -57,10 +57,10 @@ public class AppCommands {
                             @ShellOption(value = {"-N", "--name"}, defaultValue = "") String name) {
 
         if (id != -1) {
-            return genreService.findById(id).toString();
+            return genreService.getById(id).toString();
         }
         if (!name.isEmpty()) {
-            return genreService.findByName(name).toString();
+            return genreService.getByName(name).toString();
         }
         return genreService.getAll().toString();
     }
@@ -91,12 +91,12 @@ public class AppCommands {
     public String bookFind(@ShellOption(value = {"-I", "--id"}, defaultValue = "-1") Integer id,
                            @ShellOption(value = {"-N", "--name"}, defaultValue = "") String name) {
         if (id != -1) {
-            return bookService.getBookById(id).toString();
+            return bookService.getById(id).toString();
         }
         if (!name.isEmpty()) {
-            return bookService.getBookByName(name).toString();
+            return bookService.getByName(name).toString();
         }
-        return bookService.getBookList().toString();
+        return bookService.getAll().toString();
     }
 
 
@@ -116,14 +116,43 @@ public class AppCommands {
             authors[i] = Integer.valueOf(authorStrings[i]);
         }
 
-        return bookService.saveBook(name, genreId, authors).toString();
+        return bookService.save(name, genreId, authors).toString();
     }
 
     @ShellMethod("delete book")
     public String bookDelete(
             @ShellOption({"-I", "--id"}) int id){
 
-        bookService.deleteBook(id);
+        bookService.deleteById(id);
         return "deleted";
+    }
+
+    @ShellMethod("register new user")
+    public String signUp(
+            @ShellOption({"-N", "--name"}) String name){
+
+        authenticaticalService.signUp(name);
+        return "ok";
+    }
+
+    @ShellMethod("logout")
+    public String logout(){
+
+        authenticaticalService.logout();
+        return "ok";
+    }
+
+    @ShellMethod("login")
+    public String login(@ShellOption({"-N", "--name"}) String name){
+
+        authenticaticalService.login(name);
+        return "ok";
+    }
+
+    @ShellMethod("addComment")
+    public String addComment(@ShellOption({"-BI", "--id"}) int id, @ShellOption({"-T", "--text"}) String text){
+
+        commentService.addComment(id, text);
+        return "ok";
     }
 }

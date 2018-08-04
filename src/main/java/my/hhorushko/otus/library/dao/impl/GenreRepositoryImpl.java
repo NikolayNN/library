@@ -1,25 +1,18 @@
-package my.hhorushko.otus.library.dao;
+package my.hhorushko.otus.library.dao.impl;
 
 import lombok.AllArgsConstructor;
-import my.hhorushko.otus.library.domain.Author;
+import my.hhorushko.otus.library.dao.GenreRepository;
 import my.hhorushko.otus.library.domain.Genre;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 @Repository
 @AllArgsConstructor
-public class GenreDaoImpl implements GenreDao{
-
+public class GenreRepositoryImpl implements GenreRepository {
 
     @PersistenceContext
     private EntityManager em;

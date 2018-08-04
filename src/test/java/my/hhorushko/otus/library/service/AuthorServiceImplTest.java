@@ -2,6 +2,7 @@ package my.hhorushko.otus.library.service;
 
 import my.hhorushko.otus.library.dao.AuthorRepository;
 import my.hhorushko.otus.library.domain.Author;
+import my.hhorushko.otus.library.service.impl.AuthorServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,7 +48,7 @@ public class AuthorServiceImplTest {
 
         when(authorRepository.findById(anyInt())).thenReturn(expectAuthor);
 
-        Author actualAuthor = authorService.findById(givenId);
+        Author actualAuthor = authorService.getById(givenId);
 
         assertEquals(expectAuthor, actualAuthor);
         verify(authorRepository).findById(integerArgumentCaptor.capture());
@@ -65,7 +66,7 @@ public class AuthorServiceImplTest {
 
         when(authorRepository.findByName(anyString())).thenReturn(expectAuthor);
 
-        Author actualAuthor = authorService.findByName(givenName);
+        Author actualAuthor = authorService.getByName(givenName);
 
         assertEquals(expectAuthor, actualAuthor);
         verify(authorRepository).findByName(stringArgumentCaptor.capture());
