@@ -99,8 +99,6 @@ public class AppCommands {
         return bookService.getAll().toString();
     }
 
-
-
     @ShellMethod("save book")
     public String bookSave(
             @ShellOption({"-N", "--name"}) String name,
