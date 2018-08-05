@@ -92,7 +92,7 @@ public class BookRepositoryTest {
 
         //then
         thrown.expect(ConstraintViolationException.class);
-        thrown.expectMessage("interpolatedMessage='не может быть пусто', propertyPath=genre");
+        thrown.expectMessage("interpolatedMessage='должно быть задано', propertyPath=genre");
 
         bookRepository.findByName(givenBookName).get();
     }
